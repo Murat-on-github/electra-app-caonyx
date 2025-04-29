@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { ArrowLeft, ChartLine, BarChart3, ScatterChart } from "lucide-react";
+import { ArrowLeft, LineChart, BarChart2, Circle } from "lucide-react";
 import { TimePeriod } from "@/types/finance";
 import { mockDataByPeriod } from "@/lib/mockData";
 import SpendingOverview from "@/components/SpendingOverview";
@@ -25,13 +25,13 @@ const Index = () => {
           </button>
           <div className="flex space-x-2">
             <button className="p-2 rounded-full hover:bg-secondary/50">
-              <ChartLine className="w-5 h-5" />
+              <LineChart className="w-5 h-5" />
             </button>
             <button className="p-2 rounded-full hover:bg-secondary/50">
-              <BarChart3 className="w-5 h-5" />
+              <BarChart2 className="w-5 h-5" />
             </button>
             <button className="p-2 rounded-full hover:bg-secondary/50">
-              <ScatterChart className="w-5 h-5" />
+              <Circle className="w-5 h-5" />
             </button>
           </div>
         </header>
