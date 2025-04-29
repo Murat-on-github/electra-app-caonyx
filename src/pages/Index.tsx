@@ -63,15 +63,13 @@ const Index = () => {
 
         <SpendingOverview data={currentData} />
         
-        {currentData.dailySpending && currentData.dailySpending.length > 0 && (
-          <>
-            {chartType === "line" ? (
-              <SpendingChart data={currentData} />
-            ) : (
-              <BubbleChart data={currentData} />
-            )}
-          </>
-        )}
+        <div style={{ height: "250px" }}>
+          {chartType === "line" ? (
+            <SpendingChart data={currentData} />
+          ) : (
+            <BubbleChart data={currentData} />
+          )}
+        </div>
 
         <TimePeriodSelector
           selectedPeriod={selectedPeriod}

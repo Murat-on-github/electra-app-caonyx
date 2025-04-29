@@ -32,7 +32,7 @@ const SpendingChart: React.FC<SpendingChartProps> = ({ data }) => {
   };
 
   return (
-    <div className="chart-container mb-4">
+    <div className="chart-container mb-4" style={{ height: "250px" }}>
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={data.dailySpending}
