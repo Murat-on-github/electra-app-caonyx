@@ -1,19 +1,30 @@
 
 import React, { useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import { TimePeriod } from "@/types/finance";
+import { DateRange, TimePeriod } from "@/types/finance";
 import { mockDataByPeriod } from "@/lib/mockData";
 import SpendingOverview from "@/components/SpendingOverview";
 import TimePeriodSelector from "@/components/TimePeriodSelector";
 import CategoryBreakdown from "@/components/CategoryBreakdown";
 import SpendingChart from "@/components/SpendingChart";
+import { format } from "date-fns";
 
 const Index = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<TimePeriod>("1W");
-  const currentData = mockDataByPeriod[selectedPeriod];
+  const [customDateRange, setCustomDateRange] = useState<DateRange | null>(null);
+  const currentData = mockDataByPeriod[selectedPeriod === "custom" ? "1W" : selectedPeriod];
 
   const handleTimePeriodChange = (period: TimePeriod) => {
     setSelectedPeriod(period);
+    if (period !== "custom") {
+      setCustomDateRange(null);
+    }
+  };
+
+  const handleCustomRangeChange = (range: DateRange) => {
+    setCustomDateRange(range);
+    // In a real app, you would fetch data for this custom range
+    console.log("Custom date range selected:", range);
   };
 
   return (
@@ -90,7 +101,14 @@ const Index = () => {
         <TimePeriodSelector
           selectedPeriod={selectedPeriod}
           onSelectPeriod={handleTimePeriodChange}
+          onSelectCustomRange={handleCustomRangeChange}
         />
+
+        {selectedPeriod === "custom" && customDateRange?.from && (
+          <div className="mb-4 text-sm text-muted-foreground">
+            Showing data for: {format(customDateRange.from, "dd MMM yyyy")}
+          </div>
+        )}
 
         <CategoryBreakdown categories={currentData.categories} />
       </div>
