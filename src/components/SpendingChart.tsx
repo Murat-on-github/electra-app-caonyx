@@ -24,11 +24,11 @@ const SpendingChart: React.FC<SpendingChartProps> = ({ data }) => {
   if (!data.dailySpending) return null;
 
   // Function to format large numbers with K for thousands
-  const formatYAxis = (value: number) => {
+  const formatYAxis = (value: any) => {
     if (value >= 1000) {
       return `${(value / 1000).toFixed(0)}K`;
     }
-    return value;
+    return value.toString();
   };
 
   return (
