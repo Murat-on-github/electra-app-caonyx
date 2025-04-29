@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { SpendingData } from "../types/finance";
 
@@ -14,9 +14,18 @@ interface BubbleData {
   name: string;
   color: string;
   percentage: number;
+  amount: number;
 }
 
 const BubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
+  const isFirstRender = useRef(true);
+  
+  useEffect(() => {
+    isFirstRender.current = false;
+    console.log("BubbleChart data:", data);
+    console.log("Categories:", data.categories);
+  }, [data]);
+
   // Transform the category data into a format suitable for the bubble chart
   const bubbleData: BubbleData[] = [];
   
@@ -27,21 +36,26 @@ const BubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
   data.categories.forEach((category, index) => {
     // Calculate position in a circular layout
     const angle = angleStep * index;
-    const radius = 40 + Math.random() * 20; // Vary the distance from center
+    const radius = 30 + Math.random() * 15; // Vary the distance from center
     const x = Math.cos(angle) * radius + 50; // Center at x=50
     const y = Math.sin(angle) * radius + 50; // Center at y=50
     
     // Extract the color name for direct CSS variable usage
-    const colorPart = category.color.split('-')[1]?.toLowerCase();
-    const color = colorPart ? `var(--finance-${colorPart})` : "#FF5AAF";
+    let color;
+    if (category.color === "finance-pink") color = "#FF5AAF";
+    else if (category.color === "finance-blue") color = "#3B82F6";
+    else if (category.color === "finance-green") color = "#10B981";
+    else if (category.color === "finance-yellow") color = "#F59E0B";
+    else color = "#FF5AAF"; // Default fallback
     
     bubbleData.push({
       x,
       y,
-      z: Math.max(category.percentage * 5, 20), // Size based on percentage, minimum size of 20
+      z: Math.max(category.percentage * 8, 30), // Size based on percentage, minimum size of 30
       name: category.name,
       color,
-      percentage: category.percentage
+      percentage: category.percentage,
+      amount: category.amount
     });
   });
 
@@ -53,7 +67,8 @@ const BubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
       z: 30,
       name: "No spending data",
       color: "#666",
-      percentage: 0
+      percentage: 0,
+      amount: 0
     });
   }
 
@@ -66,7 +81,7 @@ const BubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
           {/* Invisible axes for positioning */}
           <XAxis type="number" dataKey="x" domain={[0, 100]} hide />
           <YAxis type="number" dataKey="y" domain={[0, 100]} hide />
-          <ZAxis type="number" dataKey="z" range={[50, 400]} />
+          <ZAxis type="number" dataKey="z" range={[50, 500]} />
           <Tooltip
             content={({ active, payload }) => {
               if (active && payload && payload.length) {
@@ -74,6 +89,7 @@ const BubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
                 return (
                   <div className="bg-secondary/80 p-2 rounded-md shadow-md border border-border/50">
                     <p className="font-medium text-sm">{data.name}</p>
+                    <p className="text-xs">€{data.amount.toLocaleString()}</p>
                     <p className="text-xs">{data.percentage}%</p>
                   </div>
                 );
@@ -81,13 +97,14 @@ const BubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
               return null;
             }}
           />
-          <Scatter data={bubbleData}>
+          <Scatter data={bubbleData} animationDuration={isFirstRender.current ? 0 : 1000}>
             {bubbleData.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={entry.color}
-                fillOpacity={0.7}
+                fillOpacity={0.8}
                 stroke={entry.color}
+                strokeWidth={1}
               />
             ))}
           </Scatter>
