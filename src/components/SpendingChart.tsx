@@ -1,89 +1,89 @@
-import React from "react";
-import { SpendingData } from "@/types/finance";
-import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+
+import React, { useEffect, useRef } from "react";
+import {
+  Area,
+  AreaChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { SpendingData } from "../types/finance";
 
 interface SpendingChartProps {
   data: SpendingData;
 }
 
 const SpendingChart: React.FC<SpendingChartProps> = ({ data }) => {
-  if (!data.dailySpending || data.dailySpending.length === 0) {
-    return null;
-  }
+  const isFirstRender = useRef(true);
 
-  const chartData = data.dailySpending.map((item) => ({
-    name: item.date,
-    amount: item.amount,
-  }));
+  useEffect(() => {
+    isFirstRender.current = false;
+  }, []);
+
+  if (!data.dailySpending) return null;
+
+  // Function to format large numbers with K for thousands
+  const formatYAxis = (value: number) => {
+    if (value >= 1000) {
+      return `${(value / 1000).toFixed(0)}K`;
+    }
+    return value;
+  };
 
   return (
-    <div className="mb-6">
-      <h3 className="text-sm font-medium mb-2">Spending Trend</h3>
-      <div className="chart-container bg-background rounded-lg p-2">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart
-            data={chartData}
-            margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
-          >
-            <XAxis
-              dataKey="name"
-              tick={{ fontSize: 10 }}
-              tickLine={false}
-              axisLine={false}
-              tickFormatter={(value) => {
-                // Show abbreviated day names
-                const date = new Date(value);
-                return date.toLocaleDateString(undefined, {
-                  weekday: "short",
-                });
-              }}
-            />
-            <YAxis
-              tick={{ fontSize: 10 }}
-              tickLine={false}
-              axisLine={false}
-              tickFormatter={(value) => {
-                // Format currency values
-                return `$${value}`;
-              }}
-            />
-            <Tooltip
-              formatter={formatter}
-              labelFormatter={(label) => {
-                const date = new Date(label);
-                return date.toLocaleDateString(undefined, {
-                  weekday: "long",
-                  month: "short",
-                  day: "numeric",
-                });
-              }}
-              contentStyle={{
-                backgroundColor: "hsl(240 10% 3.9%)",
-                border: "1px solid hsl(240 3.7% 15.9%)",
-                borderRadius: "0.5rem",
-                fontSize: "0.875rem",
-              }}
-            />
-            <Line
-              type="monotone"
-              dataKey="amount"
-              stroke="hsl(217.2 91.2% 59.8%)"
-              strokeWidth={2}
-              dot={false}
-              activeDot={{ r: 4 }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+    <div className="chart-container mb-4">
+      <ResponsiveContainer width="100%" height="100%">
+        <AreaChart
+          data={data.dailySpending}
+          margin={{
+            top: 5,
+            right: 5,
+            left: 0,
+            bottom: 5,
+          }}
+        >
+          <defs>
+            <linearGradient id="colorSpending" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#FF5AAF" stopOpacity={0.3} />
+              <stop offset="95%" stopColor="#FF5AAF" stopOpacity={0} />
+            </linearGradient>
+          </defs>
+          <XAxis
+            dataKey="date"
+            axisLine={false}
+            tickLine={false}
+            tick={{ fill: "#8E8E93", fontSize: 10 }}
+          />
+          <YAxis
+            tickFormatter={formatYAxis}
+            axisLine={false}
+            tickLine={false}
+            tick={{ fill: "#8E8E93", fontSize: 10 }}
+            width={30}
+          />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "#1F1F1F",
+              border: "none",
+              borderRadius: "8px",
+              color: "white",
+            }}
+            formatter={(value: number) => [`€${value}`, "Spent"]}
+            labelFormatter={(value) => `${value}`}
+          />
+          <Area
+            type="monotone"
+            dataKey="amount"
+            stroke="#FF5AAF"
+            strokeWidth={2}
+            fill="url(#colorSpending)"
+            animationDuration={isFirstRender.current ? 0 : 1000}
+          />
+        </AreaChart>
+      </ResponsiveContainer>
     </div>
   );
-};
-
-const formatter = (value: any): string => {
-  if (typeof value === 'number') {
-    return `$${value}`;
-  }
-  return String(value);
 };
 
 export default SpendingChart;

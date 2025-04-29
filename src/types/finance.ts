@@ -20,9 +20,4 @@ export interface SpendingData {
   dailySpending?: { date: string; amount: number }[];
 }
 
-export type TimePeriod = '1W' | '1M' | '6M' | '1Y' | 'custom';
-
-export interface DateRange {
-  from: Date | undefined;
-  to?: Date | undefined;
-}
+export type TimePeriod = '1W' | '1M' | '6M' | '1Y';
