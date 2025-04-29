@@ -41,7 +41,7 @@ const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({ categories }) => 
               <div
                 className={cn(
                   "w-8 h-8 rounded-full flex items-center justify-center text-lg mr-3",
-                  `bg-${category.color.split('-')[1]?.toLowerCase()}`
+                  `bg-${category.color}`
                 )}
               >
                 <span className="text-sm">{category.icon}</span>

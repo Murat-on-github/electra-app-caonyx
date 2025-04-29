@@ -7,34 +7,13 @@ import SpendingOverview from "@/components/SpendingOverview";
 import TimePeriodSelector from "@/components/TimePeriodSelector";
 import CategoryBreakdown from "@/components/CategoryBreakdown";
 import SpendingChart from "@/components/SpendingChart";
-import BubbleChart from "@/components/BubbleChart";
-
-type ChartType = "line" | "bar" | "bubble";
 
 const Index = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<TimePeriod>("1W");
-  const [activeChart, setActiveChart] = useState<ChartType>("line");
   const currentData = mockDataByPeriod[selectedPeriod];
 
   const handleTimePeriodChange = (period: TimePeriod) => {
     setSelectedPeriod(period);
-  };
-
-  const renderChart = () => {
-    if (!currentData.dailySpending || currentData.dailySpending.length === 0) {
-      return null;
-    }
-
-    switch (activeChart) {
-      case "bubble":
-        return <BubbleChart data={currentData} />;
-      case "bar":
-        // Future implementation for bar chart
-        return <SpendingChart data={currentData} />;
-      case "line":
-      default:
-        return <SpendingChart data={currentData} />;
-    }
   };
 
   return (
@@ -45,22 +24,13 @@ const Index = () => {
             <ArrowLeft className="h-5 w-5" />
           </button>
           <div className="flex space-x-2">
-            <button 
-              className={`p-2 rounded-full ${activeChart === 'line' ? 'bg-secondary' : 'hover:bg-secondary/50'}`}
-              onClick={() => setActiveChart("line")}
-            >
+            <button className="p-2 rounded-full hover:bg-secondary/50">
               <ChartLine className="w-5 h-5" />
             </button>
-            <button 
-              className={`p-2 rounded-full ${activeChart === 'bar' ? 'bg-secondary' : 'hover:bg-secondary/50'}`}
-              onClick={() => setActiveChart("bar")}
-            >
+            <button className="p-2 rounded-full hover:bg-secondary/50">
               <BarChart3 className="w-5 h-5" />
             </button>
-            <button 
-              className={`p-2 rounded-full ${activeChart === 'bubble' ? 'bg-secondary' : 'hover:bg-secondary/50'}`}
-              onClick={() => setActiveChart("bubble")}
-            >
+            <button className="p-2 rounded-full hover:bg-secondary/50">
               <ScatterChart className="w-5 h-5" />
             </button>
           </div>
@@ -68,7 +38,9 @@ const Index = () => {
 
         <SpendingOverview data={currentData} />
         
-        {renderChart()}
+        {currentData.dailySpending && currentData.dailySpending.length > 0 && (
+          <SpendingChart data={currentData} />
+        )}
 
         <TimePeriodSelector
           selectedPeriod={selectedPeriod}
