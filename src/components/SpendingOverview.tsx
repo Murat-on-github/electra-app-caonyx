@@ -21,6 +21,12 @@ const SpendingOverview: React.FC<SpendingOverviewProps> = ({ data }) => {
       : "text-finance-pink";
   };
 
+  // Helper function to get the actual color based on the color string
+  const getCategoryColor = (colorString: string) => {
+    const colorName = colorString.split('-')[1]?.toLowerCase();
+    return colorName ? `bg-finance-${colorName}` : "bg-gray-500";
+  };
+
   return (
     <div className="mb-6 bg-secondary/30 rounded-lg p-4">
       <div className="flex items-center justify-between">
@@ -50,10 +56,7 @@ const SpendingOverview: React.FC<SpendingOverviewProps> = ({ data }) => {
               className="flex flex-col items-center"
             >
               <div 
-                className="w-3 h-3 rounded-full mb-1"
-                style={{ 
-                  backgroundColor: `var(--tw-colors-${category.color.split('-')[1].toLowerCase()})` 
-                }}
+                className={cn("w-3 h-3 rounded-full mb-1", getCategoryColor(category.color))}
               ></div>
               <p className="text-[10px] text-muted-foreground">{category.percentage}%</p>
             </div>

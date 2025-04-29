@@ -1,19 +1,29 @@
 
 import React, { useState } from "react";
-import { ArrowLeft, LineChart, BarChart2, Circle } from "lucide-react";
+import { ArrowLeft, LineChart, Circle } from "lucide-react";
 import { TimePeriod } from "@/types/finance";
 import { mockDataByPeriod } from "@/lib/mockData";
 import SpendingOverview from "@/components/SpendingOverview";
 import TimePeriodSelector from "@/components/TimePeriodSelector";
 import CategoryBreakdown from "@/components/CategoryBreakdown";
 import SpendingChart from "@/components/SpendingChart";
+import BubbleChart from "@/components/BubbleChart";
+import { cn } from "@/lib/utils";
+
+// Chart type enum
+type ChartType = "line" | "bubble";
 
 const Index = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<TimePeriod>("1W");
+  const [chartType, setChartType] = useState<ChartType>("line");
   const currentData = mockDataByPeriod[selectedPeriod];
 
   const handleTimePeriodChange = (period: TimePeriod) => {
     setSelectedPeriod(period);
+  };
+
+  const handleChartTypeChange = (type: ChartType) => {
+    setChartType(type);
   };
 
   return (
@@ -24,13 +34,28 @@ const Index = () => {
             <ArrowLeft className="h-5 w-5" />
           </button>
           <div className="flex space-x-2">
-            <button className="p-2 rounded-full hover:bg-secondary/50">
+            <button 
+              className={cn(
+                "p-2 rounded-full transition-colors", 
+                chartType === "line" 
+                  ? "bg-secondary text-foreground" 
+                  : "hover:bg-secondary/50"
+              )}
+              onClick={() => handleChartTypeChange("line")}
+              aria-label="Line Chart"
+            >
               <LineChart className="w-5 h-5" />
             </button>
-            <button className="p-2 rounded-full hover:bg-secondary/50">
-              <BarChart2 className="w-5 h-5" />
-            </button>
-            <button className="p-2 rounded-full hover:bg-secondary/50">
+            <button 
+              className={cn(
+                "p-2 rounded-full transition-colors", 
+                chartType === "bubble" 
+                  ? "bg-secondary text-foreground" 
+                  : "hover:bg-secondary/50"
+              )}
+              onClick={() => handleChartTypeChange("bubble")}
+              aria-label="Bubble Chart"
+            >
               <Circle className="w-5 h-5" />
             </button>
           </div>
@@ -39,7 +64,13 @@ const Index = () => {
         <SpendingOverview data={currentData} />
         
         {currentData.dailySpending && currentData.dailySpending.length > 0 && (
-          <SpendingChart data={currentData} />
+          <>
+            {chartType === "line" ? (
+              <SpendingChart data={currentData} />
+            ) : (
+              <BubbleChart data={currentData} />
+            )}
+          </>
         )}
 
         <TimePeriodSelector
