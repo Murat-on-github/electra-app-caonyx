@@ -1,13 +1,14 @@
 
 import React from "react";
 import { SpendingData } from "../types/finance";
+import { cn } from "@/lib/utils";
 
 interface SpendingOverviewProps {
   data: SpendingData;
 }
 
 const SpendingOverview: React.FC<SpendingOverviewProps> = ({ data }) => {
-  // Calculate total percentage covered by categories for the progress ring
+  // Calculate total percentage covered by categories for the progress indicators
   const totalPercentage = Math.min(
     data.categories.reduce((total, category) => total + category.percentage, 0),
     100
@@ -20,66 +21,48 @@ const SpendingOverview: React.FC<SpendingOverviewProps> = ({ data }) => {
       : "text-finance-pink";
   };
 
-  // Create segments for the circular progress
-  const createCircleSegments = () => {
-    const segments = [];
-    let startAngle = 0;
-    
-    data.categories.forEach((category, index) => {
-      const segmentLength = (category.percentage / 100) * 100;
-      
-      segments.push(
-        <circle
-          key={category.id}
-          cx="50"
-          cy="50"
-          r="40"
-          fill="none"
-          stroke={`theme('colors.${category.color}')`}
-          strokeWidth="8"
-          strokeLinecap="round"
-          className="circle-progress"
-          strokeDasharray={`${segmentLength} ${100 - segmentLength}`}
-          strokeDashoffset={-(startAngle * 100 / 100)}
-          style={{
-            stroke: `var(--tw-colors-${category.color.split('-')[1].toLowerCase()})`,
-          }}
-        />
-      );
-      
-      startAngle += category.percentage / 100;
-    });
-    
-    return segments;
-  };
-
   return (
-    <div className="flex flex-col items-center justify-center mb-6">
-      <div className="relative w-48 h-48 mb-2">
-        {/* Gray background circle */}
-        <svg className="w-full h-full progress-circle" viewBox="0 0 100 100">
-          <circle
-            cx="50"
-            cy="50"
-            r="40"
-            fill="none"
-            stroke="#333"
-            strokeWidth="8"
-          />
-          {/* Colored segments */}
-          {createCircleSegments()}
-        </svg>
-        
-        {/* Text in the middle */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
+    <div className="mb-6 bg-secondary/30 rounded-lg p-4">
+      <div className="flex items-center justify-between">
+        {/* Left section - Total spent */}
+        <div className="flex flex-col">
           <p className="text-xs text-muted-foreground">Spent</p>
-          <h1 className="text-3xl font-bold">€{data.totalSpent.toLocaleString()}</h1>
-          <p className="text-xs text-muted-foreground mt-1">{data.timeFrame}</p>
-          {data.previousPeriodChange && (
-            <p className={`text-xs mt-1 ${getPreviousPeriodChangeColor()}`}>
+          <h2 className="text-2xl font-bold">€{data.totalSpent.toLocaleString()}</h2>
+          <p className="text-xs text-muted-foreground">{data.timeFrame}</p>
+        </div>
+
+        {/* Middle section - Previous period change */}
+        {data.previousPeriodChange && (
+          <div className="flex flex-col items-center">
+            <p className={`text-sm ${getPreviousPeriodChangeColor()}`}>
               {data.previousPeriodChange.isIncrease ? "+" : "-"}€
-              {data.previousPeriodChange.amount} · {data.timeFrame}
+              {data.previousPeriodChange.amount.toLocaleString()}
             </p>
+            <p className="text-xs text-muted-foreground">vs previous</p>
+          </div>
+        )}
+
+        {/* Right section - Category indicators */}
+        <div className="flex items-center space-x-1">
+          {data.categories.slice(0, 3).map((category) => (
+            <div
+              key={category.id}
+              className="flex flex-col items-center"
+            >
+              <div 
+                className="w-3 h-3 rounded-full mb-1"
+                style={{ 
+                  backgroundColor: `var(--tw-colors-${category.color.split('-')[1].toLowerCase()})` 
+                }}
+              ></div>
+              <p className="text-[10px] text-muted-foreground">{category.percentage}%</p>
+            </div>
+          ))}
+          {data.categories.length > 3 && (
+            <div className="flex flex-col items-center">
+              <div className="w-3 h-3 rounded-full mb-1 bg-muted"></div>
+              <p className="text-[10px] text-muted-foreground">+{data.categories.length - 3}</p>
+            </div>
           )}
         </div>
       </div>
