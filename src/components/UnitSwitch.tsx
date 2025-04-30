@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Euro, Bolt } from "lucide-react";
+import { Euro, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface UnitSwitchProps {
@@ -33,7 +33,7 @@ const UnitSwitch: React.FC<UnitSwitchProps> = ({ unit, onUnitChange }) => {
         onClick={() => onUnitChange("kWh")}
         aria-label="Show in kWh"
       >
-        <Bolt className="w-4 h-4" />
+        <Zap className="w-4 h-4" />
       </button>
     </div>
   );
