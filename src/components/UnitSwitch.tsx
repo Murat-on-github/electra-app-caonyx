@@ -1,7 +1,7 @@
 
 import React from "react";
-import { Switch } from "@/components/ui/switch";
-import { ToggleLeft, ToggleRight } from "lucide-react";
+import { Euro, Bolt } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface UnitSwitchProps {
   unit: "EUR" | "kWh";
@@ -9,26 +9,33 @@ interface UnitSwitchProps {
 }
 
 const UnitSwitch: React.FC<UnitSwitchProps> = ({ unit, onUnitChange }) => {
-  const handleToggle = () => {
-    onUnitChange(unit === "EUR" ? "kWh" : "EUR");
-  };
-
   return (
     <div className="flex flex-col justify-center items-center bg-secondary/30 rounded-lg p-4 mr-2 h-full">
       <div className="flex items-center gap-2">
-        <span className={`text-xs ${unit === "EUR" ? "text-foreground" : "text-muted-foreground"}`}>EUR</span>
-        <div className="flex items-center relative">
-          <Switch 
-            checked={unit === "kWh"} 
-            onCheckedChange={handleToggle}
-          />
-          {unit === "EUR" ? (
-            <ToggleLeft className="absolute left-0 w-4 h-4 text-primary pointer-events-none" />
-          ) : (
-            <ToggleRight className="absolute right-0 w-4 h-4 text-primary pointer-events-none" />
+        <button 
+          className={cn(
+            "p-2 rounded-full transition-colors", 
+            unit === "EUR" 
+              ? "bg-secondary text-foreground" 
+              : "hover:bg-secondary/50"
           )}
-        </div>
-        <span className={`text-xs ${unit === "kWh" ? "text-foreground" : "text-muted-foreground"}`}>kWh</span>
+          onClick={() => onUnitChange("EUR")}
+          aria-label="Show in EUR"
+        >
+          <Euro className="w-4 h-4" />
+        </button>
+        <button 
+          className={cn(
+            "p-2 rounded-full transition-colors", 
+            unit === "kWh" 
+              ? "bg-secondary text-foreground" 
+              : "hover:bg-secondary/50"
+          )}
+          onClick={() => onUnitChange("kWh")}
+          aria-label="Show in kWh"
+        >
+          <Bolt className="w-4 h-4" />
+        </button>
       </div>
     </div>
   );
