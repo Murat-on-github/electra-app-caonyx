@@ -51,7 +51,7 @@ const BubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
     bubbleData.push({
       x,
       y,
-      z: Math.max(category.percentage * 80, 200), // Greatly increased scaling factor and minimum size
+      z: Math.max(category.percentage * 160, 400), // Massively increased scaling factor and minimum size
       name: category.name,
       color,
       percentage: category.percentage,
@@ -64,7 +64,7 @@ const BubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
     bubbleData.push({
       x: 50,
       y: 50,
-      z: 200, // Further increased placeholder bubble size
+      z: 400, // Significantly increased placeholder bubble size
       name: "No spending data",
       color: "#666",
       percentage: 0,
@@ -81,7 +81,7 @@ const BubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
           {/* Invisible axes for positioning */}
           <XAxis type="number" dataKey="x" domain={[0, 100]} hide />
           <YAxis type="number" dataKey="y" domain={[0, 100]} hide />
-          <ZAxis type="number" dataKey="z" range={[500, 6000]} /> {/* Significantly increased range for much bigger bubbles */}
+          <ZAxis type="number" dataKey="z" range={[1000, 12000]} /> {/* Dramatically increased range for extremely large bubbles */}
           <Tooltip
             content={({ active, payload }) => {
               if (active && payload && payload.length) {
