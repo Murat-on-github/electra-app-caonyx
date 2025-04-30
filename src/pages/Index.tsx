@@ -8,15 +8,56 @@ import TimePeriodSelector from "@/components/TimePeriodSelector";
 import CategoryBreakdown from "@/components/CategoryBreakdown";
 import SpendingChart from "@/components/SpendingChart";
 import BubbleChart from "@/components/BubbleChart";
+import UnitSwitch from "@/components/UnitSwitch";
 import { cn } from "@/lib/utils";
 
 // Chart type enum
 type ChartType = "line" | "bubble";
+type Unit = "EUR" | "kWh";
 
 const Index = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<TimePeriod>("1W");
   const [chartType, setChartType] = useState<ChartType>("line");
+  const [unit, setUnit] = useState<Unit>("EUR");
   const currentData = mockDataByPeriod[selectedPeriod];
+
+  // Conversion factor (example: 1 EUR = 2 kWh)
+  const conversionFactor = 2;
+
+  // Convert data based on selected unit
+  const convertData = (data: typeof currentData) => {
+    if (unit === "EUR") return data;
+
+    // Deep clone and convert the data
+    const converted = JSON.parse(JSON.stringify(data));
+    
+    // Convert total spent
+    converted.totalSpent = converted.totalSpent * conversionFactor;
+    
+    // Convert daily spending if it exists
+    if (converted.dailySpending) {
+      converted.dailySpending = converted.dailySpending.map((day: any) => ({
+        ...day,
+        amount: day.amount * conversionFactor
+      }));
+    }
+    
+    // Convert previous period change if it exists
+    if (converted.previousPeriodChange) {
+      converted.previousPeriodChange.amount = 
+        converted.previousPeriodChange.amount * conversionFactor;
+    }
+    
+    // Convert categories
+    converted.categories = converted.categories.map((category: any) => ({
+      ...category,
+      amount: category.amount * conversionFactor
+    }));
+    
+    return converted;
+  };
+
+  const displayData = convertData(currentData);
 
   const handleTimePeriodChange = (period: TimePeriod) => {
     setSelectedPeriod(period);
@@ -24,6 +65,10 @@ const Index = () => {
 
   const handleChartTypeChange = (type: ChartType) => {
     setChartType(type);
+  };
+
+  const handleUnitChange = (newUnit: Unit) => {
+    setUnit(newUnit);
   };
 
   return (
@@ -61,13 +106,16 @@ const Index = () => {
           </div>
         </header>
 
-        <SpendingOverview data={currentData} />
+        <div className="flex mb-6">
+          <UnitSwitch unit={unit} onUnitChange={handleUnitChange} />
+          <SpendingOverview data={displayData} unit={unit} />
+        </div>
         
         <div style={{ height: "250px" }}>
           {chartType === "line" ? (
-            <SpendingChart data={currentData} />
+            <SpendingChart data={displayData} unit={unit} />
           ) : (
-            <BubbleChart data={currentData} />
+            <BubbleChart data={displayData} unit={unit} />
           )}
         </div>
 
@@ -76,7 +124,7 @@ const Index = () => {
           onSelectPeriod={handleTimePeriodChange}
         />
 
-        <CategoryBreakdown categories={currentData.categories} />
+        <CategoryBreakdown categories={displayData.categories} unit={unit} />
       </div>
     </div>
   );

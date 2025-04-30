@@ -12,9 +12,10 @@ import { SpendingData } from "../types/finance";
 
 interface SpendingChartProps {
   data: SpendingData;
+  unit?: "EUR" | "kWh";
 }
 
-const SpendingChart: React.FC<SpendingChartProps> = ({ data }) => {
+const SpendingChart: React.FC<SpendingChartProps> = ({ data, unit = "EUR" }) => {
   const isFirstRender = useRef(true);
 
   useEffect(() => {
@@ -69,7 +70,10 @@ const SpendingChart: React.FC<SpendingChartProps> = ({ data }) => {
               borderRadius: "8px",
               color: "white",
             }}
-            formatter={(value: number) => [`€${value}`, "Spent"]}
+            formatter={(value: number) => [
+              unit === "EUR" ? `€${value}` : `${value} kWh`,
+              "Spent"
+            ]}
             labelFormatter={(value) => `${value}`}
           />
           <Area

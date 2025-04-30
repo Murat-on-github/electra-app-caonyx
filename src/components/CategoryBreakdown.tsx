@@ -1,13 +1,19 @@
+
 import React from "react";
 import { ExpenseCategory } from "../types/finance";
 import { cn } from "@/lib/utils";
+
 interface CategoryBreakdownProps {
   categories: ExpenseCategory[];
+  unit?: "EUR" | "kWh";
 }
+
 const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({
-  categories
+  categories,
+  unit = "EUR"
 }) => {
-  return <div className="space-y-4">
+  return (
+    <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <span className="text-sm font-medium">By Category</span>
@@ -19,7 +25,8 @@ const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({
       </div>
 
       <div className="space-y-3">
-        {categories.map(category => <div key={category.id} className="flex items-center justify-between py-2">
+        {categories.map(category => (
+          <div key={category.id} className="flex items-center justify-between py-2">
             <div className="flex items-center">
               <div className={cn("w-8 h-8 rounded-full flex items-center justify-center text-lg mr-3", `bg-${category.color}`)}>
                 <span className="text-sm">{category.icon}</span>
@@ -33,11 +40,16 @@ const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({
               </div>
             </div>
             <div className="text-right">
-              <p className="font-medium text-sm">-€{category.amount.toLocaleString()}</p>
+              <p className="font-medium text-sm">
+                {unit === "EUR" ? `-€${category.amount.toLocaleString()}` : `-${category.amount.toLocaleString()} kWh`}
+              </p>
               <p className="text-xs text-muted-foreground">{category.percentage}%</p>
             </div>
-          </div>)}
+          </div>
+        ))}
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default CategoryBreakdown;

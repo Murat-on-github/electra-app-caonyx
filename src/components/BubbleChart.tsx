@@ -5,6 +5,7 @@ import { SpendingData } from "../types/finance";
 
 interface BubbleChartProps {
   data: SpendingData;
+  unit?: "EUR" | "kWh";
 }
 
 interface BubbleData {
@@ -17,7 +18,7 @@ interface BubbleData {
   amount: number;
 }
 
-const BubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
+const BubbleChart: React.FC<BubbleChartProps> = ({ data, unit = "EUR" }) => {
   const isFirstRender = useRef(true);
   
   useEffect(() => {
@@ -89,7 +90,9 @@ const BubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
                 return (
                   <div className="bg-secondary/80 p-2 rounded-md shadow-md border border-border/50">
                     <p className="font-medium text-sm">{data.name}</p>
-                    <p className="text-xs">€{data.amount.toLocaleString()}</p>
+                    <p className="text-xs">
+                      {unit === "EUR" ? `€${data.amount.toLocaleString()}` : `${data.amount.toLocaleString()} kWh`}
+                    </p>
                     <p className="text-xs">{data.percentage}%</p>
                   </div>
                 );
