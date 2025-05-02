@@ -86,9 +86,9 @@ export const sixMonthData: SpendingData = {
   },
   categories: [
     {
-      id: "rent",
-      name: "Rent",
-      icon: "🏠",
+      id: "heating",
+      name: "Heating",
+      icon: "🔥",
       color: "finance-pink",
       transactions: 5,
       amount: 3853,
@@ -128,9 +128,9 @@ export const yearData: SpendingData = {
   timeFrame: "This year",
   categories: [
     {
-      id: "rent",
-      name: "Rent",
-      icon: "🏠",
+      id: "heating",
+      name: "Heating",
+      icon: "🔥",
       color: "finance-pink",
       transactions: 5,
       amount: 3853,
