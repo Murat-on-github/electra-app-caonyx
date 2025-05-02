@@ -23,6 +23,7 @@ const UnitSwitch: React.FC<UnitSwitchProps> = ({ unit, onUnitChange }) => {
       >
         <Euro className="w-4 h-4" />
       </button>
+      <div className="flex-grow"></div>
       <button 
         className={cn(
           "p-2 rounded-full transition-colors", 
