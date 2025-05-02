@@ -40,7 +40,7 @@ export const monthData: SpendingData = {
   categories: [
     {
       id: "heating",
-      name: "Heating",
+      name: "Home Heating",
       icon: "🔥",
       color: "finance-blue",
       transactions: 2,
@@ -87,7 +87,7 @@ export const sixMonthData: SpendingData = {
   categories: [
     {
       id: "heating",
-      name: "Heating",
+      name: "Home Heating",
       icon: "🔥",
       color: "finance-pink",
       transactions: 5,
@@ -97,7 +97,7 @@ export const sixMonthData: SpendingData = {
     {
       id: "honeymoon",
       name: "Honeymoon",
-      icon: "✈️",
+      icon: "❄️",
       color: "finance-yellow",
       transactions: 84,
       amount: 2829,
@@ -129,7 +129,7 @@ export const yearData: SpendingData = {
   categories: [
     {
       id: "heating",
-      name: "Heating",
+      name: "Home Heating",
       icon: "🔥",
       color: "finance-pink",
       transactions: 5,
@@ -139,7 +139,7 @@ export const yearData: SpendingData = {
     {
       id: "honeymoon",
       name: "Honeymoon",
-      icon: "✈️",
+      icon: "❄️",
       color: "finance-yellow",
       transactions: 84,
       amount: 2829,
