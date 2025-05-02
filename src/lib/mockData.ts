@@ -57,8 +57,8 @@ export const monthData: SpendingData = {
       percentage: 9,
     },
     {
-      id: "health",
-      name: "Health",
+      id: "water-heating",
+      name: "Water Heating",
       icon: "⚕️",
       color: "finance-green",
       transactions: 1,
