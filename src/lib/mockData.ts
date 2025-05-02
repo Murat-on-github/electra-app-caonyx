@@ -59,7 +59,7 @@ export const monthData: SpendingData = {
     {
       id: "water-heating",
       name: "Water Heating",
-      icon: "⚕️",
+      icon: "🛁",
       color: "finance-green",
       transactions: 1,
       amount: 300,
@@ -146,9 +146,9 @@ export const yearData: SpendingData = {
       percentage: 23,
     },
     {
-      id: "groceries",
-      name: "Groceries",
-      icon: "🛒",
+      id: "water-heating",
+      name: "Water-heating",
+      icon: "🛁",
       color: "finance-green",
       transactions: 30,
       amount: 1044,
