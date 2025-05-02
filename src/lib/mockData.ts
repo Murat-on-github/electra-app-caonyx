@@ -95,8 +95,8 @@ export const sixMonthData: SpendingData = {
       percentage: 31,
     },
     {
-      id: "honeymoon",
-      name: "Honeymoon",
+      id: "cooling",
+      name: "Home Cooling",
       icon: "❄️",
       color: "finance-yellow",
       transactions: 84,
@@ -137,8 +137,8 @@ export const yearData: SpendingData = {
       percentage: 31,
     },
     {
-      id: "honeymoon",
-      name: "Honeymoon",
+      id: "cooling",
+      name: "Home Cooling",
       icon: "❄️",
       color: "finance-yellow",
       transactions: 84,
