@@ -147,7 +147,7 @@ export const yearData: SpendingData = {
     },
     {
       id: "water-heating",
-      name: "Water-heating",
+      name: "Water Heating",
       icon: "🛁",
       color: "finance-green",
       transactions: 30,
