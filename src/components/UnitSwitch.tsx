@@ -13,7 +13,7 @@ const UnitSwitch: React.FC<UnitSwitchProps> = ({ unit, onUnitChange }) => {
     <div className="flex flex-col justify-between bg-secondary/30 rounded-lg p-4 mr-2 h-full">
       <button 
         className={cn(
-          "p-2 rounded-full transition-colors mb-2", 
+          "p-2 rounded-full transition-colors", 
           unit === "EUR" 
             ? "bg-secondary text-foreground" 
             : "hover:bg-secondary/50"

@@ -106,7 +106,7 @@ const Index = () => {
           </div>
         </header>
 
-        <div className="flex mb-6">
+        <div className="flex mb-6 h-[90px]">
           <UnitSwitch unit={unit} onUnitChange={handleUnitChange} />
           <SpendingOverview data={displayData} unit={unit} />
         </div>
