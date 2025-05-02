@@ -14,14 +14,11 @@ const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({
 }) => {
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
-          <span className="text-sm font-medium">By Category</span>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </div>
-        <button className="text-sm text-finance-blue">Manage</button>
+      <div className="flex items-center">
+        <span className="text-sm font-medium">By Category</span>
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
       </div>
 
       <div className="space-y-3">
@@ -33,10 +30,6 @@ const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({
               </div>
               <div>
                 <p className="font-medium text-sm">{category.name}</p>
-                <p className="text-xs text-muted-foreground">
-                  {category.transactions} transaction
-                  {category.transactions !== 1 ? "s" : ""}
-                </p>
               </div>
             </div>
             <div className="text-right">
