@@ -39,9 +39,9 @@ export const monthData: SpendingData = {
   },
   categories: [
     {
-      id: "rent",
-      name: "Rent",
-      icon: "🏠",
+      id: "heating",
+      name: "Heating",
+      icon: "🔥",
       color: "finance-blue",
       transactions: 2,
       amount: 1900,
