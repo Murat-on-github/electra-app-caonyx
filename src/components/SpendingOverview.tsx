@@ -29,7 +29,7 @@ const SpendingOverview: React.FC<SpendingOverviewProps> = ({
   const unitSymbol = unit === "EUR" ? "€" : "kWh";
   
   return (
-    <div className="mb-6 bg-secondary/30 rounded-lg p-4 flex-1">
+    <div className="bg-secondary/30 rounded-lg p-4 flex-1 h-full flex flex-col justify-between">
       <div className="flex items-center justify-between">
         {/* Left section - Total spent */}
         <div className="flex flex-col">
