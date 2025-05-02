@@ -10,8 +10,8 @@ export const weekData: SpendingData = {
   },
   categories: [
     {
-      id: "food-delivery",
-      name: "Food Delivery",
+      id: "cooking",
+      name: "Cooking",
       icon: "🍽️",
       color: "finance-pink",
       transactions: 1,
