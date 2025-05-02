@@ -48,9 +48,9 @@ export const monthData: SpendingData = {
       percentage: 51,
     },
     {
-      id: "restaurants",
-      name: "Restaurants",
-      icon: "🍽️",
+      id: "dishwasher",
+      name: "dishwasher",
+      icon: "💦",
       color: "finance-pink",
       transactions: 9,
       amount: 351,
@@ -95,8 +95,8 @@ export const sixMonthData: SpendingData = {
       percentage: 31,
     },
     {
-      id: "honeymoon",
-      name: "Honeymoon",
+      id: "baseload",
+      name: "always-on",
       icon: "✈️",
       color: "finance-yellow",
       transactions: 84,
