@@ -104,9 +104,9 @@ export const sixMonthData: SpendingData = {
       percentage: 23,
     },
     {
-      id: "groceries",
-      name: "Groceries",
-      icon: "🛒",
+      id: "water-heating",
+      name: "Water Heating",
+      icon: "🛁",
       color: "finance-green",
       transactions: 30,
       amount: 1044,
